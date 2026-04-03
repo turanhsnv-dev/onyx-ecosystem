@@ -27,7 +27,9 @@ export const TrendingNow = () => {
           View Store <ChevronRight size={16} />
         </Link>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-6">
+
+      {/* Grid-i sənin istədiyin kimi etdik: yan-yana 3 dənə */}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {MOCK_TRENDING.map((game) => (
           <TrendingCard key={game.id} {...game} />
         ))}
