@@ -5,11 +5,13 @@ import { TrendingNow } from "@/features/home/trending-now";
 
 export default function Home() {
   return (
-    <div className="flex flex-col gap-8 w-full max-w-[1200px] mx-auto pb-12">
+    <div className="flex flex-col w-full pb-12">
       <HeroCarousel />
-      <ContinuePlaying />
-      <LiveNow />
-      <TrendingNow />
+      <div className="w-full max-w-[1200px] mx-auto flex flex-col gap-10 px-6 mt-10">
+        <ContinuePlaying />
+        <LiveNow />
+        <TrendingNow />
+      </div>
     </div>
   );
 }

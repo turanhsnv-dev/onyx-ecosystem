@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { Play, Info, ChevronLeft, ChevronRight } from "lucide-react";
 
-// KARUSEL ÜÇÜN DATA
 const SLIDES = [
   {
     id: 1,
@@ -34,7 +33,6 @@ const SLIDES = [
 export const HeroCarousel = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Avtomatik sürüşmə (Hər 5 saniyədən bir)
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev === SLIDES.length - 1 ? 0 : prev + 1));
@@ -46,16 +44,14 @@ export const HeroCarousel = () => {
   const prevSlide = () => setCurrentSlide((prev) => (prev === 0 ? SLIDES.length - 1 : prev - 1));
 
   return (
-    <div className="relative w-full h-[400px] md:h-[480px] rounded-3xl overflow-hidden group">
+    <div className="relative w-full h-[400px] md:h-[500px] overflow-hidden group border-b border-border">
 
-      {/* SLAYDLAR (Şəkillər və Məzmun) */}
       {SLIDES.map((slide, index) => (
         <div
           key={slide.id}
           className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0 pointer-events-none"
             }`}
         >
-          {/* Arxa plan şəkli (Qradient ilə birlikdə) */}
           <div
             className="absolute inset-0 bg-cover bg-center transition-transform duration-[10000ms] scale-105"
             style={{
@@ -63,62 +59,70 @@ export const HeroCarousel = () => {
               transform: index === currentSlide ? "scale(1)" : "scale(1.05)"
             }}
           />
-          {/* Sol tərəf qradienti */}
           <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent opacity-80" />
 
-          {/* Məzmun (Yazılar və Düymələr) */}
-          <div className="absolute inset-0 flex flex-col justify-center p-8 md:p-12 max-w-2xl">
-            <span className="text-primary font-bold text-xs tracking-[0.2em] uppercase mb-4 animate-fade-in-up">
-              {slide.subtitle}
-            </span>
-            <h1 className="text-5xl md:text-7xl font-black text-white leading-[1.1] mb-6 whitespace-pre-line animate-fade-in-up" style={{ animationDelay: '100ms' }}>
-              {slide.title}
-            </h1>
-            <p className="text-text-muted text-sm md:text-base leading-relaxed mb-8 max-w-lg animate-fade-in-up" style={{ animationDelay: '200ms' }}>
-              {slide.description}
-            </p>
+          {/* DİQQƏT: Bu qutu yazıları aşağıdakı komponentlərlə eyni xəttə salır */}
+          <div className="absolute inset-0 flex flex-col justify-center w-full max-w-[1200px] mx-auto px-6 pointer-events-none">
+            <div className="max-w-2xl pointer-events-auto">
+              <span className="text-primary font-bold text-xs tracking-[0.2em] uppercase mb-4 block animate-fade-in-up">
+                {slide.subtitle}
+              </span>
+              <h1 className="text-5xl md:text-7xl font-black text-white leading-[1.1] mb-6 whitespace-pre-line animate-fade-in-up" style={{ animationDelay: '100ms' }}>
+                {slide.title}
+              </h1>
+              <p className="text-text-muted text-sm md:text-base leading-relaxed mb-8 max-w-lg animate-fade-in-up" style={{ animationDelay: '200ms' }}>
+                {slide.description}
+              </p>
 
-            <div className="flex items-center gap-6 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
-              <button className="bg-primary hover:bg-primary/90 text-white font-bold py-3 px-8 rounded-xl flex items-center gap-2 transition-colors shadow-lg shadow-primary/20">
-                <Play size={18} fill="currentColor" /> {slide.primaryBtn}
-              </button>
-              <button className="text-white hover:text-primary font-bold py-3 px-2 flex items-center gap-2 transition-colors">
-                <Info size={18} /> Learn More
-              </button>
+              <div className="flex items-center gap-6 animate-fade-in-up" style={{ animationDelay: '300ms' }}>
+                <button className="bg-primary hover:bg-primary/90 text-white font-bold py-3 px-8 rounded-xl flex items-center gap-2 transition-colors shadow-lg shadow-primary/20">
+                  <Play size={18} fill="currentColor" /> {slide.primaryBtn}
+                </button>
+                <button className="bg-surface/50 hover:bg-surface border border-border text-white font-bold py-3 px-6 rounded-xl flex items-center gap-2 transition-colors">
+                  <Info size={18} /> Learn More
+                </button>
+              </div>
             </div>
           </div>
         </div>
       ))}
 
-      {/* İNDİKATORLAR (Mərkəzdəki nöqtələr) */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20">
-        {SLIDES.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentSlide(index)}
-            className={`transition-all duration-300 rounded-full ${index === currentSlide
-                ? "w-6 h-1.5 bg-primary"
-                : "w-1.5 h-1.5 bg-text-muted/50 hover:bg-text-muted"
-              }`}
-          />
-        ))}
-      </div>
+      {/* İNDİKATORLAR VƏ OX LAR (Mərkəzi 1200px limitinə uyğunlaşdırıldı) */}
+      <div className="absolute bottom-6 inset-x-0 w-full max-w-[1200px] mx-auto px-6 flex justify-between items-center z-20 pointer-events-none">
 
-      {/* İDARƏ OX LARI (Sağ alt künc) */}
-      <div className="absolute bottom-6 right-8 flex items-center gap-3 z-20">
-        <button
-          onClick={prevSlide}
-          className="w-10 h-10 rounded-full border border-border bg-background/50 backdrop-blur-sm flex items-center justify-center text-text-muted hover:text-white hover:border-primary/50 transition-colors"
-        >
-          <ChevronLeft size={20} />
-        </button>
-        <button
-          onClick={nextSlide}
-          className="w-10 h-10 rounded-full border border-border bg-background/50 backdrop-blur-sm flex items-center justify-center text-text-muted hover:text-white hover:border-primary/50 transition-colors"
-        >
-          <ChevronRight size={20} />
-        </button>
+        {/* Balans qorumaq üçün boşluq */}
+        <div className="w-[104px]" />
+
+        {/* Nöqtələr mərkəzdə */}
+        <div className="flex items-center gap-2 pointer-events-auto">
+          {SLIDES.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentSlide(index)}
+              className={`transition-all duration-300 rounded-full ${index === currentSlide
+                  ? "w-6 h-1.5 bg-primary"
+                  : "w-1.5 h-1.5 bg-text-muted/50 hover:bg-text-muted"
+                }`}
+            />
+          ))}
+        </div>
+
+        {/* Oxlar sağda */}
+        <div className="flex items-center gap-3 pointer-events-auto">
+          <button
+            onClick={prevSlide}
+            className="w-10 h-10 rounded-full border border-border bg-background/50 backdrop-blur-sm flex items-center justify-center text-text-muted hover:text-white hover:border-primary/50 transition-colors"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <button
+            onClick={nextSlide}
+            className="w-10 h-10 rounded-full border border-border bg-background/50 backdrop-blur-sm flex items-center justify-center text-text-muted hover:text-white hover:border-primary/50 transition-colors"
+          >
+            <ChevronRight size={20} />
+          </button>
+        </div>
       </div>
 
     </div>
