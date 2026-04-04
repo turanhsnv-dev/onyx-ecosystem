@@ -1,23 +1,29 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
 import { SidebarLeft } from "@/components/layout/sidebar-left/sidebar-left";
 import { SidebarRight } from "@/components/layout/sidebar-right/sidebar-right";
-import "./globals.css";
+import { PageContainer } from "@/components/layout/page-container/page-container"; // 1. İMPORT EDİRİK
+
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Onyx Ecosystem",
-  description: "Premium Gaming Dashboard",
+  title: "Onyx Gaming Ecosystem",
+  description: "Next generation gaming platform",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="en">
-      <body className="antialiased flex min-h-screen">
+      <body className={`${inter.className} bg-background text-text-main antialiased flex`}>
         <SidebarLeft />
-        <main className="flex-1 ml-[280px] mr-[320px] min-h-screen bg-surface/30 p-8">
+        <PageContainer>
           {children}
-        </main>
+        </PageContainer>
         <SidebarRight />
       </body>
     </html>
